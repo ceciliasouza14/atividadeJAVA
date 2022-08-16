@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title> JOGO DA VELHA </title>
+    <script src="arq.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body link="white" alink="white" vlink="white" text="white">
+
+    <table whith="200" align="center" border="10">
+
+        <tr>
+
+            <td>
+
+                <label> Jogar contra o computador: </label>
+                <label><input type="radio" id="pc" name="pc"> Sim </label>
+                <label><input type="radio" id="pc" name="pc" checked> Não </label>
+
+            </td>
+
+        </tr>
+
+    </table>
+
+    <table whith="200" align="center" border="10">
+
+        <tr>
+
+            <td><img src="img/transp.png" alt="fundo_tabela" id="c1" onclick="return checkjogo(this.id)"></td>
+            <td><img src="img/transp.png" alt="fundo_tabela" id="c2" onclick="return checkjogo(this.id)"></td>
+            <td><img src="img/transp.png" alt="fundo_tabela" id="c3" onclick="return checkjogo(this.id)"></td>
+
+        </tr>
+
+        <tr>
+
+            <td><img src="img/transp.png" alt="fundo_tabela" id="c4" onclick="return checkjogo(this.id)"></td>
+            <td><img src="img/transp.png" alt="fundo_tabela" id="c5" onclick="return checkjogo(this.id)"></td>
+            <td><img src="img/transp.png" alt="fundo_tabela" id="c6" onclick="return checkjogo(this.id)"></td>
+
+        </tr>
+
+        <tr>
+
+            <td><img src="img/transp.png" alt="fundo_tabela" id="c7" onclick="return checkjogo(this.id)"></td>
+            <td><img src="img/transp.png" alt="fundo_tabela" id="c8" onclick="return checkjogo(this.id)"></td>
+            <td><img src="img/transp.png" alt="fundo_tabela" id="c9" onclick="return checkjogo(this.id)"></td>
+
+        </tr>
+
+    </table>
+
+    <table whith="200" align="center" border="10">
+
+        <tr><td><a href="index.html" class="botao"><font color:"black"> REINICIAR </font></a></td></tr>
+
+    </table>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+body{
+
+    background-image: url(img/6.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;    
+
+}
+
+table{
+
+    margin-top: 10px;
+
+}
+
+td img{
+
+    filter: invert(70%);
+
+}
+
+table label {
+
+    color: black;
+    font-weight: bolder;
+    font-size: 20px;
+
+}
+
+.botao{
+
+    font-size: 20px;
+    background-color:black ;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var player = "X";
+var numJog = 0;
+var termino = false;
+
+function checkjogo(id) {
+
+    var cpu = document.getElementById('pc').checked;
+    var opt = verificaSrc(id);
+
+    if (termino) {
+
+        return false;
+
+    }
+
+    if (opt == "transp.png") {
+
+        document.getElementById(id).src = "./img/" + player + ".png";
+
+        numJog++;
+
+        if (winchek()) {
+
+            termino = true;
+            alert("Fim de jogo " + player + " venceu!");
+            return false;
+
+        }
+
+        if (numJog >= 9) {
+
+            termino = true;
+            alert("Fim de jogo!! Deu velha!!!");
+            return false;
+
+        }
+
+        if (player == "X") {
+
+            player = "O";
+
+        } else {
+
+            player = "X";
+
+        }
+
+    }
+
+    if (cpu && player == "O") {
+
+        checkjogo(jogoDoPc());
+
+    }
+
+    function jogoDoPc() {
+
+        return 'c' + Math.floor((Math.random() * 9) + 1);
+
+    }
+
+}
+
+function verificaSrc(id) {
+
+    var file = document.getElementById(id).src;
+    return file.substring(file.length - 10, file.length);
+
+}
+
+function winchek() {
+
+    if (((verificaSrc('c1') == verificaSrc('c2')) && (verificaSrc('c1') == verificaSrc('c3')) && verificaSrc('c1') != "transp.png") ||
+        ((verificaSrc('c4') == verificaSrc('c5')) && (verificaSrc('c4') == verificaSrc('c6')) && verificaSrc('c4') != "transp.png") ||
+        ((verificaSrc('c7') == verificaSrc('c8')) && (verificaSrc('c7') == verificaSrc('c9')) && verificaSrc('c7') != "transp.png") ||
+        ((verificaSrc('c1') == verificaSrc('c4')) && (verificaSrc('c1') == verificaSrc('c7')) && verificaSrc('c1') != "transp.png") ||
+        ((verificaSrc('c2') == verificaSrc('c5')) && (verificaSrc('c2') == verificaSrc('c8')) && verificaSrc('c2') != "transp.png") ||
+        ((verificaSrc('c3') == verificaSrc('c6')) && (verificaSrc('c3') == verificaSrc('c9')) && verificaSrc('c3') != "transp.png") ||
+        ((verificaSrc('c1') == verificaSrc('c5')) && (verificaSrc('c1') == verificaSrc('c9')) && verificaSrc('c1') != "transp.png") ||
+        ((verificaSrc('c3') == verificaSrc('c5')) && (verificaSrc('c3') == verificaSrc('c7')) && verificaSrc('c3') != "transp.png")) {
+
+        return true;
+
+    }
+
+    return false;
+
+}
